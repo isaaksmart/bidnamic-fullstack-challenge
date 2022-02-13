@@ -1,4 +1,3 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from .models import Bidnamic
@@ -15,7 +14,7 @@ def return_form(request):
             # process the data in form.cleaned_data as required
             form.clean_birthday()
             form.save()
-            # redirect to a new URL:
+            # redirect to a blank form:
             return BidnamicForm()
 
     # if a GET (or any other method) we'll create a blank form
@@ -30,7 +29,6 @@ def index(request):
 
 
 def delete(request, item):
-    print(request)
     Bidnamic.objects.filter(id=item).delete()
     bidnamic_objects = Bidnamic.objects.all()
     form = return_form(request)
