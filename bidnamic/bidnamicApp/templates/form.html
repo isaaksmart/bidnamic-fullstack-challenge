@@ -1,18 +1,61 @@
 <form action="#" method="post">
-  {% csrf_token %}
-  {% for field in form %}
-    <div class="row">
-       <div class="col-md-2">    
-        {{ field.label_tag }}
-        {% if field.help_text %}
-          <sup>{{ field.help_text }}</sup>
-        {% endif %}
-        {{ field.errors }}
-       </div><div class="col-md-10 pull-left">
-         {{ field }}
-       </div>
+  {% csrf_token %} {% for field in form %}
+  <div class="row" style="margin-bottom: 10px">
+    <div class="col-md-2">
+      {{ field.label_tag }} {% if field.help_text %}
+      <sup>{{ field.help_text }}</sup>
+      {% endif %} {{ field.errors }}
     </div>
- {% endfor %}
-
+    <div class="col-md-10 pull-left">{{ field }}</div>
+  </div>
+  {% endfor %}
   <input type="submit" value="Submit" />
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>First Name</th>
+      <th>Surname</th>
+      <th>Date Of Birth</th>
+      <th>Company Name</th>
+      <th>Address</th>
+      <th>Telephone</th>
+      <th>Bidding Settings</th>
+      <th>Google Ads Account ID</th>
+      <th>Delete</th>
+    </tr>
+    {% for m in model %}
+    <tr>
+      <td>{{m.Title}}</td>
+      <td>{{m.FirstName}}</td>
+      <td>{{m.Surname}}</td>
+      <td>{{m.DateOfBirth}}</td>
+      <td>{{m.CompanyName}}</td>
+      <td>{{m.Address}}</td>
+      <td>{{m.Telephone}}</td>
+      <td>{{m.BiddingSettings}}</td>
+      <td>{{m.GoogleID}}</td>
+      <td>
+        <a href="{% url 'delete' m.id %}">X</a>
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
 </form>
+
+<style>
+  table {
+    border: 1px solid;
+    margin-top: 10px;
+  }
+
+  th,
+  td {
+    text-align: left;
+    border-right: 1px solid;
+  }
+
+  th {
+    border-bottom: 1px solid;
+  }
+</style>
