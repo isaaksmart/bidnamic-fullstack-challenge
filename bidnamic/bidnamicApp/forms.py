@@ -1,4 +1,5 @@
-from django.forms import DateField, ModelForm
+from datetime import date
+from django.forms import ModelForm
 from .models import Bidnamic
 
 from django import forms
@@ -9,7 +10,14 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class BidnamicForm(ModelForm):
-    # DateOfBirth = DateField(input_formats='%d/%m/%YYYY', label="Date of Birth")
+    
+    def clean_birthday(self):
+        dob = self.cleaned_data['DateOfBirth']
+        age = (date.today() - dob).days / 365
+        if age < 18:
+            raise forms.ValidationError('You must be at least 18 years old')
+        return dob
+
     class Meta:
         model = Bidnamic
         fields = ['Title', 'FirstName', 'Surname', 'DateOfBirth', 'CompanyName', 'Address', 'Telephone', 'BiddingSettings', 'GoogleID']
